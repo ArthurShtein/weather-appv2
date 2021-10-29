@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { autoCompleteData } from "../../store/actions/weatherAction";
+import {
+  autoCompleteData,
+  getCurrentCondition,
+  UpdateCity,
+} from "../../store/actions/weatherAction";
 
-import './Home.css'
+import { CityDisplay } from "../../Components/CityDisplay/CityDisplay";
+
+import "./Home.css";
 
 export const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
@@ -14,8 +20,21 @@ export const Home = () => {
     (state) => state.weatherModule.autoComplete
   );
 
+  // dispatch(getCurrentCondition(21584));
+
+  const handleClick = (item) => {
+    const { LocalizedName, Key } = item;
+    const newCityToSave = { cityName: LocalizedName, Key };
+    dispatch(UpdateCity(newCityToSave));
+    dispatch(getCurrentCondition(Key));
+    setInputSearch("");
+  };
 
   const handleChange = (e) => {
+    if (!e.target.value) {
+      setInputSearch("");
+      return;
+    }
     setInputSearch(e.target.value);
     dispatch(autoCompleteData(e.target.value));
   };
@@ -28,15 +47,18 @@ export const Home = () => {
     <div className="home">
       <h1> Find The Weather In Any City </h1>
       <input type="text" placeholder="search city" onChange={handleChange} />
-      {completeDataFromState &&
+      {inputSearch &&
         completeDataFromState.map((item) => {
           const { LocalizedName, Key } = item;
           return (
             <div key={Key}>
-              <button > {LocalizedName} </button>
+              <button className="city-btn" onClick={() => handleClick(item)}>
+                {LocalizedName}
+              </button>
             </div>
           );
         })}
+      <CityDisplay />
     </div>
   );
 };

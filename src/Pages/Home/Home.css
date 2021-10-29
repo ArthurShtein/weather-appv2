@@ -3,3 +3,17 @@
     flex-direction: column;
     align-items: center;
 }
+
+.city-btn {
+    border: none;
+    padding: 10px;
+    width: 200px; 
+    cursor: pointer; 
+    
+    transition: 0.3s all;
+}
+
+.city-btn:hover{
+    background-color: rgb(132, 130, 238);
+    color: white;
+}
