@@ -42,16 +42,11 @@ async function fiveDaysForecast(locationKey) {
   }
 }
 
-function checkDuplicates(city){
+function checkDuplicates(city) {
   let favCitys = [];
-  let noDuplicatesFavCitys = [];
   let favsFromLocal = JSON.parse(localStorage.getItem("favourites"));
 
   if (favsFromLocal) favCitys = favsFromLocal;
-
-  // if (!favCitys.length) {
-  //   favCitys.push(city);
-  // }
 
   let isCityAlreadyInside = favCitys.find(
     (item) => item.cityName === city.cityName
@@ -68,11 +63,4 @@ function checkDuplicates(city){
     localStorage.setItem("favourites", JSON.stringify(favCitys));
     return favCitys;
   }
-  // favCitys.push(cityToAdd);
-  // console.log(" favCitys >>>", favCitys);
-  // localStorage.setItem("favourites", JSON.stringify(favCitys));
-  // const favCitysFromLocal = JSON.parse(localStorage.getItem("favourites"));
-  //   if (favCitysFromLocal) favCitys = favCitysFromLocal;
-  //   favCitys.find((item) => item.cityName)
-  //   favCitys.push(cityToAdd);
-};
+}

@@ -2,16 +2,22 @@ import React from "react";
 import "./FavouriteCity.css";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { UpdateCity } from "../../store/actions/weatherAction"
-
+import {
+  getCurrentCondition,
+  getFiveDaysForecast,
+  UpdateCity,
+} from "../../store/actions/weatherAction";
 
 export const FavouriteCity = ({ city }) => {
   let history = useHistory();
   const dispatch = useDispatch();
+
   const handleClick = () => {
-    console.log(" HANDLING CLICK ... ");
     history.push({ pathname: "/" });
-      dispatch(UpdateCity(city));
+    let newCityToShow = { cityName: city.cityName, Key: city.Key };
+    dispatch(UpdateCity(newCityToShow));
+    dispatch(getCurrentCondition(newCityToShow.Key));
+    dispatch(getFiveDaysForecast(newCityToShow.Key));
   };
 
   return (

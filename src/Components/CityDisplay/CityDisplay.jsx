@@ -1,43 +1,63 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addCityToFavourites } from "../../store/actions/weatherAction";
 import "./CityDisplay.css";
 
-// const checkFromLocal = () => {
-//   const itemsFromLocal = localStorage.getItem("favourites");
-//   if (itemsFromLocal) {
-//     return JSON.parse(localStorage.getItem("favourites"));
-//   } else {
-//     return [];
-//   }
-// };
+import { utilService } from "../../utils/utils.js";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 export const CityDisplay = () => {
-  //   const [favList, setFavList] = useState(checkFromLocal());
+  const [inFavourite, setInFavourite] = useState(false);
+
   const cityFromState = useSelector((state) => state.weatherModule.city);
+  const favouritesFromLocal = useSelector(
+    (state) => state.weatherModule.favourites
+  );
   const currentConditionFromState = useSelector(
     (state) => state.weatherModule.currentCondition
   );
 
+  const isCityDisplayInFavourites = () => {
+    const isInFavourites = favouritesFromLocal.find((item) => {
+      return item.cityName === cityFromState.cityName;
+    });
+    if (isInFavourites) {
+      setInFavourite(true);
+    } else {
+      setInFavourite(false);
+    }
+  };
+
+  useEffect(() => {
+    isCityDisplayInFavourites();
+  }, [cityFromState, favouritesFromLocal]);
+
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    // localStorage.setItem("favourites", JSON.stringify(cityFromState));
+    isCityDisplayInFavourites();
     dispatch(addCityToFavourites(cityFromState));
   };
 
+  if (!currentConditionFromState.length) return <div> Loading ... </div>;
   return (
     <div className="city-display-container">
-      <div>
-        <h3> {cityFromState.cityName}</h3>
-        {currentConditionFromState.length && (
-          <div>
-            <h4> {currentConditionFromState[0].WeatherText}</h4>
-            <h4> {currentConditionFromState[0].Temperature.Imperial.Value}F</h4>
-          </div>
-        )}
+      <div className="city-display-left">
+        <div>
+          <h3> {cityFromState.cityName}</h3>
+          <h4>{currentConditionFromState[0].Temperature.Imperial.Value}F°</h4>
+        </div>
+        <img
+          className="city-display-img"
+          src={`https://developer.accuweather.com/sites/default/files/${utilService.padNum(
+            currentConditionFromState[0].WeatherIcon
+          )}-s.png`}
+          alt=""
+        />
       </div>
-      <div className="city-right">
+      <div className="city-display-right">
+        {inFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
         <button className="city-display-btn" onClick={handleClick}>
           Add To favourites
         </button>

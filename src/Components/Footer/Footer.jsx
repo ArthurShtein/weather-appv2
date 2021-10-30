@@ -4,7 +4,7 @@ import './Footer.css'
 export const Footer = () => {
     return (
         <footer>
-            <p> This is a footer </p>
+            <p> Made by Arthur Shtein </p>
         </footer>
     )
 }

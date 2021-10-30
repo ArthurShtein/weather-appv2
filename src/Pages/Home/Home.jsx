@@ -12,30 +12,18 @@ import { CityDisplay } from "../../Components/CityDisplay/CityDisplay";
 
 import "./Home.css";
 
-// const checkLocal = () => {
-//   let itemsFromLocal = JSON.parse(localStorage.getItem("favourites"));
-//   console.log("itemsFromLocal >>>>", itemsFromLocal);
-//   if (itemsFromLocal) {
-//     localStorage.setItem("favourites", JSON.stringify(itemsFromLocal));
-//   } else {
-//     localStorage.setItem("favourites", JSON.stringify([]));
-//   }
-// };
-
-// localStorage.setItem("favourites", JSON.stringify([]));
-
 export const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
   const [dataSearch, setDataSearch] = useState([]);
-
 
   // DATA FROM STATE
   const dispatch = useDispatch();
   const completeDataFromState = useSelector(
     (state) => state.weatherModule.autoComplete
   );
-
-  // dispatch(getCurrentCondition(21584));
+  const currentCityFromState = useSelector(
+    (state) => state.weatherModule.city
+  );
 
   const handleClick = (item) => {
     const { LocalizedName, Key } = item;
@@ -55,12 +43,11 @@ export const Home = () => {
     dispatch(autoCompleteData(e.target.value));
   };
 
-  // useEffect(() => {
-  //   // UPDATE FORECAST AFTER CLICKING ON CITY FROM FAVOURITES 
-  //   setDataSearch(completeDataFromState);
-  //     dispatch(getCurrentCondition(Key));
-  //     dispatch(getFiveDaysForecast(Key));
-  // }, [inputSearch]);
+  useEffect(() => {
+    setDataSearch(completeDataFromState);
+    dispatch(getCurrentCondition(currentCityFromState.Key));
+    dispatch(getFiveDaysForecast(currentCityFromState.Key));
+  }, [inputSearch]);
 
   return (
     <div className="home">
