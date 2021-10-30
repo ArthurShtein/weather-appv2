@@ -1,15 +1,22 @@
 .favourite-city-container {
   display: flex;
   flex-direction: column;
-  padding: 20px;
-  background-color: thistle;
+  padding: 25px 80px;
+  background-color: #f2f7ff;
   margin: 10px;
+  border: 1px solid #dfe3eb;
   border-radius: 8px;
-
   transition: 0.3s all;
+  text-align: center;
 }
 
 .favourite-city-container:hover {
   cursor: pointer;
-  background-color: rgb(231, 176, 231);
+  background-color: #f2f7ff;
+  border: 1px solid #0054ff;
+  color: #0054ff;
+}
+
+.fav-display-img {
+  height: 70px;
 }

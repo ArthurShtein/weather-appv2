@@ -51,8 +51,8 @@ export const Home = () => {
 
   return (
     <div className="home">
-      <h1> Find The Weather In Any City </h1>
-      <input type="text" placeholder="search city" onChange={handleChange} />
+      <h1 className="home-header"> Find The Weather In Any City </h1>
+      <input type="text" placeholder="search city" onChange={handleChange} className="home-input"/>
       {inputSearch &&
         completeDataFromState.map((item) => {
           const { LocalizedName, Key } = item;

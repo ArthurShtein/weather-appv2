@@ -37,17 +37,19 @@ export const CityDisplay = () => {
 
   const handleClick = () => {
     isCityDisplayInFavourites();
-    dispatch(addCityToFavourites(cityFromState));
+    let newCityToFavourites = {
+      ...cityFromState,
+      temp: currentConditionFromState[0].Temperature.Imperial.Value,
+      icon: currentConditionFromState[0].WeatherIcon,
+    };
+    console.log(" newCityToFavourites >>>> ", newCityToFavourites);
+    dispatch(addCityToFavourites(newCityToFavourites));
   };
 
   if (!currentConditionFromState.length) return <div> Loading ... </div>;
   return (
     <div className="city-display-container">
       <div className="city-display-left">
-        <div>
-          <h3> {cityFromState.cityName}</h3>
-          <h4>{currentConditionFromState[0].Temperature.Imperial.Value}F°</h4>
-        </div>
         <img
           className="city-display-img"
           src={`https://developer.accuweather.com/sites/default/files/${utilService.padNum(
@@ -55,11 +57,19 @@ export const CityDisplay = () => {
           )}-s.png`}
           alt=""
         />
+        <div className="city-content">
+          <h3> {cityFromState.cityName}</h3>
+          <h4>{currentConditionFromState[0].Temperature.Imperial.Value}F°</h4>
+        </div>
       </div>
       <div className="city-display-right">
-        {inFavourite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        {inFavourite ? (
+          <FavoriteIcon className="full-icon" />
+        ) : (
+          <FavoriteBorderIcon className="icon" />
+        )}
         <button className="city-display-btn" onClick={handleClick}>
-          Add To favourites
+          Add To Favourites
         </button>
       </div>
     </div>

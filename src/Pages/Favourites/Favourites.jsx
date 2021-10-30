@@ -6,7 +6,7 @@ import { FavouriteCity } from "../../Components/FavouritesCity/FavouriteCity";
 
 export const Favourites = () => {
   const favouritesFromLocal = JSON.parse(localStorage.getItem("favourites"));
-
+console.log('favouritesFromLocal >>>',favouritesFromLocal  )
   if (!favouritesFromLocal) return <div> No Favourites Yet </div>;
   return (
     <div className="favourites-container">

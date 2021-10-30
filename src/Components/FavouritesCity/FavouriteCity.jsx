@@ -7,8 +7,10 @@ import {
   getFiveDaysForecast,
   UpdateCity,
 } from "../../store/actions/weatherAction";
+import { utilService } from "../../utils/utils";
 
 export const FavouriteCity = ({ city }) => {
+  console.log("city >>>> ", city);
   let history = useHistory();
   const dispatch = useDispatch();
 
@@ -22,8 +24,15 @@ export const FavouriteCity = ({ city }) => {
 
   return (
     <div className="favourite-city-container" onClick={handleClick}>
-      <h2> {city.cityName} </h2>
-      <h2> {city.Key} </h2>
+      <img
+        className="fav-display-img"
+        src={`https://developer.accuweather.com/sites/default/files/${utilService.padNum(
+          city.icon
+          )}-s.png`}
+          alt=""
+          />
+          <h2> {city.cityName} </h2>
+      <h2> {city.temp}F° </h2>
     </div>
   );
 };
