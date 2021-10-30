@@ -42,7 +42,6 @@ export const CityDisplay = () => {
       temp: currentConditionFromState[0].Temperature.Imperial.Value,
       icon: currentConditionFromState[0].WeatherIcon,
     };
-    console.log(" newCityToFavourites >>>> ", newCityToFavourites);
     dispatch(addCityToFavourites(newCityToFavourites));
   };
 

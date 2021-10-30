@@ -1,13 +1,16 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import "./Favourites.css";
 
 import { FavouriteCity } from "../../Components/FavouritesCity/FavouriteCity";
 
 export const Favourites = () => {
   const favouritesFromLocal = JSON.parse(localStorage.getItem("favourites"));
-console.log('favouritesFromLocal >>>',favouritesFromLocal  )
-  if (!favouritesFromLocal) return <div> No Favourites Yet </div>;
+  if (!favouritesFromLocal)
+    return (
+      <div className="no-fav">
+        <h1>No Favourites Yet </h1>{" "}
+      </div>
+    );
   return (
     <div className="favourites-container">
       {favouritesFromLocal.map((city, index) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   autoCompleteData,
@@ -11,19 +11,15 @@ import { FiveDaysForecast } from "../../Components/FiveDaysForecast/FiveDaysFore
 import { CityDisplay } from "../../Components/CityDisplay/CityDisplay";
 
 import "./Home.css";
-
 export const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
-  const [dataSearch, setDataSearch] = useState([]);
-
+  const refContainer = useRef(null);
   // DATA FROM STATE
   const dispatch = useDispatch();
   const completeDataFromState = useSelector(
     (state) => state.weatherModule.autoComplete
   );
-  const currentCityFromState = useSelector(
-    (state) => state.weatherModule.city
-  );
+  const currentCityFromState = useSelector((state) => state.weatherModule.city);
 
   const handleClick = (item) => {
     const { LocalizedName, Key } = item;
@@ -31,6 +27,7 @@ export const Home = () => {
     dispatch(UpdateCity(newCityToSave));
     dispatch(getCurrentCondition(Key));
     dispatch(getFiveDaysForecast(Key));
+    refContainer.current.value = "";
     setInputSearch("");
   };
 
@@ -44,7 +41,6 @@ export const Home = () => {
   };
 
   useEffect(() => {
-    setDataSearch(completeDataFromState);
     dispatch(getCurrentCondition(currentCityFromState.Key));
     dispatch(getFiveDaysForecast(currentCityFromState.Key));
   }, [inputSearch]);
@@ -52,18 +48,27 @@ export const Home = () => {
   return (
     <div className="home">
       <h1 className="home-header"> Find The Weather In Any City </h1>
-      <input type="text" placeholder="search city" onChange={handleChange} className="home-input"/>
-      {inputSearch &&
-        completeDataFromState.map((item) => {
-          const { LocalizedName, Key } = item;
-          return (
-            <div key={Key}>
-              <button className="city-btn" onClick={() => handleClick(item)}>
-                {LocalizedName}
-              </button>
-            </div>
-          );
-        })}
+
+      <input
+        ref={refContainer}
+        type="text"
+        placeholder="search city"
+        onChange={handleChange}
+        className="home-input"
+      />
+      <div className="btn-containers">
+        {inputSearch &&
+          completeDataFromState.map((item) => {
+            const { LocalizedName, Key } = item;
+            return (
+              <div key={Key}>
+                <button className="city-btn" onClick={() => handleClick(item)}>
+                  {LocalizedName}
+                </button>
+              </div>
+            );
+          })}
+      </div>
       <CityDisplay />
       <FiveDaysForecast />
     </div>

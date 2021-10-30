@@ -8,3 +8,9 @@
     color: #333;
 }
 
+
+.no-fav{
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}

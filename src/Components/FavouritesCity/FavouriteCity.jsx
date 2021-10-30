@@ -1,7 +1,7 @@
 import React from "react";
 import "./FavouriteCity.css";
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   getCurrentCondition,
   getFiveDaysForecast,
@@ -10,7 +10,6 @@ import {
 import { utilService } from "../../utils/utils";
 
 export const FavouriteCity = ({ city }) => {
-  console.log("city >>>> ", city);
   let history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,11 +27,11 @@ export const FavouriteCity = ({ city }) => {
         className="fav-display-img"
         src={`https://developer.accuweather.com/sites/default/files/${utilService.padNum(
           city.icon
-          )}-s.png`}
-          alt=""
-          />
-          <h2> {city.cityName} </h2>
-      <h2> {city.temp}F° </h2>
+        )}-s.png`}
+        alt=""
+      />
+      <h2> {city.cityName} </h2>
+      <h3> {city.temp}F° </h3>
     </div>
   );
 };
