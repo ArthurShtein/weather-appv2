@@ -13,10 +13,23 @@ export function UpdateCity(city) {
   };
 }
 
+export function addCityToFavourites(cityToAdd) {
+  const finalFavourites = weatherService.checkDuplicates(cityToAdd)
+  return (dispatch) => {
+    dispatch({ type: "SET_FAVOURITES", finalFavourites });
+  };
+}
+
 export function getCurrentCondition(key) {
   return async (dispatch) => {
     const currentCondition = await weatherService.currentCondition(key);
-    console.log("currentCondition >>> ", currentCondition);
     dispatch({ type: "SET_CURRENT_CONDITION", currentCondition });
+  };
+}
+
+export function getFiveDaysForecast(key) {
+  return async (dispatch) => {
+    const fiveDaysForecast = await weatherService.fiveDaysForecast(key);
+    dispatch({ type: "SET_FIVE_DAYS_FORECAST", fiveDaysForecast });
   };
 }

@@ -1,0 +1,13 @@
+.five-day-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.each-day-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    background-color: rgb(71, 145, 255);
+    padding: 10px;
+    margin: 10px;
+}

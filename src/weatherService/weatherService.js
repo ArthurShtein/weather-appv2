@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const weatherService = {
+  checkDuplicates,
   autoComplete,
   currentCondition,
   fiveDaysForecast,
@@ -19,7 +20,6 @@ async function autoComplete(autoComplete) {
   }
 }
 
-
 async function currentCondition(locationKey) {
   try {
     const { data } = await axios.get(
@@ -31,7 +31,6 @@ async function currentCondition(locationKey) {
   }
 }
 
-
 async function fiveDaysForecast(locationKey) {
   try {
     let { data } = await axios.get(
@@ -42,3 +41,38 @@ async function fiveDaysForecast(locationKey) {
     console.log(error);
   }
 }
+
+function checkDuplicates(city){
+  let favCitys = [];
+  let noDuplicatesFavCitys = [];
+  let favsFromLocal = JSON.parse(localStorage.getItem("favourites"));
+
+  if (favsFromLocal) favCitys = favsFromLocal;
+
+  // if (!favCitys.length) {
+  //   favCitys.push(city);
+  // }
+
+  let isCityAlreadyInside = favCitys.find(
+    (item) => item.cityName === city.cityName
+  );
+
+  if (isCityAlreadyInside) {
+    const noDuplications = favCitys.filter(
+      (item) => item.cityName !== city.cityName
+    );
+    localStorage.setItem("favourites", JSON.stringify(noDuplications));
+    return noDuplications;
+  } else {
+    favCitys.push(city);
+    localStorage.setItem("favourites", JSON.stringify(favCitys));
+    return favCitys;
+  }
+  // favCitys.push(cityToAdd);
+  // console.log(" favCitys >>>", favCitys);
+  // localStorage.setItem("favourites", JSON.stringify(favCitys));
+  // const favCitysFromLocal = JSON.parse(localStorage.getItem("favourites"));
+  //   if (favCitysFromLocal) favCitys = favCitysFromLocal;
+  //   favCitys.find((item) => item.cityName)
+  //   favCitys.push(cityToAdd);
+};
