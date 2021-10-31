@@ -10,3 +10,9 @@ footer {
   text-align: center;
   justify-content: center;
 }
+
+@media (max-width: 650px) {
+  footer {
+    position: unset;
+  }
+}

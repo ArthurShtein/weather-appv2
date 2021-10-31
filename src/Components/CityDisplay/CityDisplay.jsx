@@ -18,6 +18,10 @@ export const CityDisplay = () => {
     (state) => state.weatherModule.currentCondition
   );
 
+  const currentTempState = useSelector(
+    (state) => state.weatherModule.isCelcius
+  );
+
   const isCityDisplayInFavourites = () => {
     const isInFavourites = favouritesFromLocal.find((item) => {
       return item.cityName === cityFromState.cityName;
@@ -45,7 +49,12 @@ export const CityDisplay = () => {
     dispatch(addCityToFavourites(newCityToFavourites));
   };
 
-  if (!currentConditionFromState.length) return <div> Loading ... </div>;
+  
+  if (!currentConditionFromState.length)
+  return <div> Search City to Display... </div>;
+  let CelciusTemp = utilService.cToF(
+    currentConditionFromState[0].Temperature.Imperial.Value
+  );
   return (
     <div className="city-display-container">
       <div className="city-display-left">
@@ -58,7 +67,12 @@ export const CityDisplay = () => {
         />
         <div className="city-content">
           <h3> {cityFromState.cityName}</h3>
-          <h4>{currentConditionFromState[0].Temperature.Imperial.Value}F°</h4>
+          <h4>
+            {currentTempState
+              ? `${CelciusTemp}C°`
+              : `${currentConditionFromState[0].Temperature.Imperial.Value}F°`}
+          </h4>
+          {/* <h4>{currentConditionFromState[0].Temperature.Imperial.Value}F° </h4> */}
         </div>
       </div>
       <div className="city-display-right">

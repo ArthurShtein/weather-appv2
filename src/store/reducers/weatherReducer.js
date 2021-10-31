@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   currentCondition: {},
   autoComplete: [],
   favourites: [],
+  isCelcius: false,
 };
 
 export function weatherReducer(state = INITIAL_STATE, action) {
@@ -32,6 +33,16 @@ export function weatherReducer(state = INITIAL_STATE, action) {
       return {
         ...state,
         favourites: action.finalFavourites,
+      };
+    case "SET_CITY_FROM_GEO":
+      return {
+        ...state,
+        city: action.city,
+      };
+    case "TOGGLE_TEMP":
+      return {
+        ...state,
+        isCelcius: action.toggleTemp,
       };
     default:
       return state;

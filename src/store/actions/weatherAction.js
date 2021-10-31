@@ -1,10 +1,16 @@
-import { weatherService } from "../../weatherService/weatherService";
+import { weatherService } from "../../services/weatherService";
 
 export function autoCompleteData(inputValue) {
   return async (dispatch) => {
     const autoCompleteResult = await weatherService.autoComplete(inputValue);
     dispatch({ type: "SET_AUTO_COMPLETE", autoCompleteResult });
   };
+}
+
+export function toggleTemp(toggleTemp){
+  return (dispatch) => {
+    dispatch({ type: "TOGGLE_TEMP", toggleTemp });
+  }
 }
 
 export function UpdateCity(city) {
@@ -33,3 +39,9 @@ export function getFiveDaysForecast(key) {
     dispatch({ type: "SET_FIVE_DAYS_FORECAST", fiveDaysForecast });
   };
 }
+
+// export function addLocationFromGeo(city){
+// return async (dispatch) => {
+//   dispatch({type: "SET_CITY_FROM_GEO", city})
+// }
+// }

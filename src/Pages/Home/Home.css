@@ -38,3 +38,23 @@
 .options {
   position: relative;
 }
+
+.temp-btn {
+  margin-top: 20px;
+  margin-left: 10px;
+  color: #333;
+  border: 1px solid #dfe3eb;
+  width: 167px;
+  border-radius: 8px;
+  padding: 12px;
+  font-weight: 700;
+  transition: 0.3s all;
+  background-color: white;
+}
+
+.temp-btn:hover {
+  cursor: pointer;
+  background-color: #f2f7ff;
+  color: #0054ff;
+  border: 1px solid #0054ff;
+}

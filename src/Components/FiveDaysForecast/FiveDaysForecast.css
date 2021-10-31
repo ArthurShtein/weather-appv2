@@ -1,21 +1,28 @@
 .five-day-container {
-    margin-top: 50px;
-    display: flex;
-    flex-wrap: wrap;
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .each-day-container {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    flex-direction: column;
-    width: 250px;
-    border-radius: 8px;
-    background-color: #f2f7ff;
-    padding: 20px; 
-    margin: 10px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  width: 250px;
+  border-radius: 8px;
+  background-color: #f2f7ff;
+  padding: 20px;
+  margin: 10px;
 }
 
 .city-display-img {
-    margin: 10px 0;
+  margin: 10px 0;
+}
+
+@media (max-width: 650px) {
+  .each-day-container {
+    width: 250px;
+  }
 }

@@ -4,22 +4,31 @@ import {
   autoCompleteData,
   getCurrentCondition,
   getFiveDaysForecast,
+  toggleTemp,
   UpdateCity,
 } from "../../store/actions/weatherAction";
 
 import { FiveDaysForecast } from "../../Components/FiveDaysForecast/FiveDaysForecast";
 import { CityDisplay } from "../../Components/CityDisplay/CityDisplay";
-
+import { weatherService } from "../../services/weatherService";
 import "./Home.css";
+
 export const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
   const refContainer = useRef(null);
-  // DATA FROM STATE
+
   const dispatch = useDispatch();
   const completeDataFromState = useSelector(
     (state) => state.weatherModule.autoComplete
   );
+
   const currentCityFromState = useSelector((state) => state.weatherModule.city);
+  const currentTempState = useSelector(
+    (state) => state.weatherModule.isCelcius
+  );
+
+  // const cityFromGeoLocation = weatherService.getPositionByGeo();
+  // console.log('cityFromGeoLocation >>>>',cityFromGeoLocation  )
 
   const handleClick = (item) => {
     const { LocalizedName, Key } = item;
@@ -29,6 +38,10 @@ export const Home = () => {
     dispatch(getFiveDaysForecast(Key));
     refContainer.current.value = "";
     setInputSearch("");
+  };
+
+  const handleClickTempToggle = () => {
+    dispatch(toggleTemp(!currentTempState));
   };
 
   const handleChange = (e) => {
@@ -43,7 +56,7 @@ export const Home = () => {
   useEffect(() => {
     dispatch(getCurrentCondition(currentCityFromState.Key));
     dispatch(getFiveDaysForecast(currentCityFromState.Key));
-  }, [inputSearch]);
+  }, []);
 
   return (
     <div className="home">
@@ -56,6 +69,10 @@ export const Home = () => {
         onChange={handleChange}
         className="home-input"
       />
+
+      <button className="temp-btn" onClick={handleClickTempToggle}>
+        {currentTempState ? "Change To Farenhight" : "Change To Celcius"}
+      </button>
       <div className="btn-containers">
         {inputSearch &&
           completeDataFromState.map((item) => {
