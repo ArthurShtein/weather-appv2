@@ -6,15 +6,17 @@ import {
   getFiveDaysForecast,
   toggleTemp,
   UpdateCity,
+  setUserLocationWithGeo,
+  setGeoTrue,
 } from "../../store/actions/weatherAction";
 
 import { FiveDaysForecast } from "../../Components/FiveDaysForecast/FiveDaysForecast";
 import { CityDisplay } from "../../Components/CityDisplay/CityDisplay";
-import { weatherService } from "../../services/weatherService";
 import "./Home.css";
 
 export const Home = () => {
   const [inputSearch, setInputSearch] = useState("");
+
   const refContainer = useRef(null);
 
   const dispatch = useDispatch();
@@ -22,14 +24,21 @@ export const Home = () => {
     (state) => state.weatherModule.autoComplete
   );
 
+  const isFromGeo = useSelector((state) => state.weatherModule.cityFromGeo);
+
   const currentCityFromState = useSelector((state) => state.weatherModule.city);
   const currentTempState = useSelector(
     (state) => state.weatherModule.isCelcius
   );
 
-  // const cityFromGeoLocation = weatherService.getPositionByGeo();
-  // console.log('cityFromGeoLocation >>>>',cityFromGeoLocation  )
 
+  const findLocationWithGeo = (pos) => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    dispatch(setUserLocationWithGeo(lat, lon));
+  };
+
+  
   const handleClick = (item) => {
     const { LocalizedName, Key } = item;
     const newCityToSave = { cityName: LocalizedName, Key };
@@ -39,11 +48,11 @@ export const Home = () => {
     refContainer.current.value = "";
     setInputSearch("");
   };
-
+  
   const handleClickTempToggle = () => {
     dispatch(toggleTemp(!currentTempState));
   };
-
+  
   const handleChange = (e) => {
     if (!e.target.value) {
       setInputSearch("");
@@ -52,6 +61,13 @@ export const Home = () => {
     setInputSearch(e.target.value);
     dispatch(autoCompleteData(e.target.value));
   };
+  
+  useEffect(() => {
+    if (!isFromGeo) {
+      navigator.geolocation.getCurrentPosition(findLocationWithGeo);
+      dispatch(setGeoTrue(!isFromGeo));
+    }
+  }, [isFromGeo]);
 
   useEffect(() => {
     dispatch(getCurrentCondition(currentCityFromState.Key));

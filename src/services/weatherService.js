@@ -6,10 +6,23 @@ export const weatherService = {
   autoComplete,
   currentCondition,
   fiveDaysForecast,
-  // getPositionByGeo,
+  getPositionByGeo,
 };
 
 const API_KEY = "4aBBAPNL6URV8G56agI6OJks01WPFlSa";
+
+async function getPositionByGeo(lat, lon) {
+  try {
+    const { data } = await axios.get(
+      `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${lat},${lon}`
+    );
+    const { LocalizedName, Key } = data;
+    const newCity = { cityName: LocalizedName, Key };
+    return newCity;
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 async function autoComplete(autoComplete) {
   try {
@@ -43,61 +56,6 @@ async function fiveDaysForecast(locationKey) {
     console.log(error);
   }
 }
-
-// async function getPositionByGeo() {
-//   try {
-//     const success = (position) => {
-//       const latitude = position.coords.latitude;
-//       const longitude = position.coords.longitude;
-//     };
-
-//     const error = () => {
-//       console.log(" Unable to find location");
-//     };
-
-//     navigator.geolocation.getCurrentPosition(success, error);
-//   } catch (error) {
-//     console.log(error);
-//   }
-//   let data = await axios.get(
-//     `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${latitude}%${longitude}`
-//   );
-//   console.log("data >>>> ", data);
-// }
-
-///////////////////////////////////////////////////////////////////////////////
-
-// async function getPositionByGeo() {
-//   const success = (position) => {
-//     const latitude = position.coords.latitude;
-//     const longitude = position.coords.longitude;
-
-//     const data  = axios.get(
-//       `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${latitude},${longitude}`
-//     );
-
-//     data.then((res) => console.log("res >>>>", res.data));
-
-    //////////////////////////////////////////////////////////////
-
-    // fetch(
-    //   `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=${API_KEY}&q=${latitude},${longitude}`
-    // )
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("data >>>>", data);
-    //     const newCity = { cityName: data.LocalizedName, Key: data.Key };
-    //     const dispatch = useDispatch();
-    //     dispatch(addLocationFromGeo(newCity));
-    //   });
-  // };
-
-//   const error = () => {
-//     console.log(" Unable to find location");
-//   };
-
-//   navigator.geolocation.getCurrentPosition(success, error);
-// }
 
 function checkDuplicates(city) {
   let favCitys = [];

@@ -19,6 +19,20 @@ export function UpdateCity(city) {
   };
 }
 
+export function setGeoTrue(toggleGeo) {
+  return (dispatch) => {
+    dispatch({ type: "SET_GEO_TRUE", toggleGeo });
+  }
+}
+
+export function setUserLocationWithGeo(lat, lon) {
+  return async (dispatch) => {
+    const city = await weatherService.getPositionByGeo(lat, lon);
+    console.log('city from weather service >>>>',city )
+    dispatch({ type: "SET_CITY", city });
+  };
+}
+
 export function addCityToFavourites(cityToAdd) {
   const finalFavourites = weatherService.checkDuplicates(cityToAdd)
   return (dispatch) => {
@@ -29,6 +43,7 @@ export function addCityToFavourites(cityToAdd) {
 export function getCurrentCondition(key) {
   return async (dispatch) => {
     const currentCondition = await weatherService.currentCondition(key);
+    console.log('currentCondition >>>>>',currentCondition  )
     dispatch({ type: "SET_CURRENT_CONDITION", currentCondition });
   };
 }
@@ -39,9 +54,3 @@ export function getFiveDaysForecast(key) {
     dispatch({ type: "SET_FIVE_DAYS_FORECAST", fiveDaysForecast });
   };
 }
-
-// export function addLocationFromGeo(city){
-// return async (dispatch) => {
-//   dispatch({type: "SET_CITY_FROM_GEO", city})
-// }
-// }
