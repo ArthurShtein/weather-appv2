@@ -9,7 +9,7 @@ export const weatherService = {
   getPositionByGeo,
 };
 
-const API_KEY = "4aBBAPNL6URV8G56agI6OJks01WPFlSa";
+const API_KEY = "R7EE4rY68GtQSNEgKMFIBbUXfHnWUXbA";
 
 async function getPositionByGeo(lat, lon) {
   try {
